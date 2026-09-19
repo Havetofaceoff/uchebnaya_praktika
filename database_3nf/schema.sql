@@ -1,35 +1,41 @@
-PRAGMA foreign_keys = ON;
+
+DROP TABLE IF EXISTS sales_history;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS partners;
+
 
 CREATE TABLE partners (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    inn TEXT NOT NULL UNIQUE,
-    email TEXT UNIQUE,
-    phone TEXT NOT NULL,
-    rating INTEGER NOT NULL DEFAULT 0
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    inn VARCHAR(12) NOT NULL UNIQUE,
+    email VARCHAR(255) UNIQUE,
+    phone VARCHAR(20) NOT NULL,
+    rating INT NOT NULL DEFAULT 0
 );
+
 
 CREATE TABLE products (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    article TEXT NOT NULL UNIQUE,
-    price REAL NOT NULL CHECK (price >= 0)
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    article VARCHAR(100) NOT NULL UNIQUE,
+    price DECIMAL(10, 2) NOT NULL CHECK (price >= 0)
 );
 
+
 CREATE TABLE sales_history (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY,
     partner_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
-    quantity INTEGER NOT NULL CHECK (quantity > 0),
-    delivery_date TEXT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    delivery_date DATE NOT NULL,
 
-    FOREIGN KEY (partner_id)
+    CONSTRAINT fk_sales_partner
+        FOREIGN KEY (partner_id)
         REFERENCES partners(id)
-        ON UPDATE CASCADE
         ON DELETE RESTRICT,
 
-    FOREIGN KEY (product_id)
+    CONSTRAINT fk_sales_product
+        FOREIGN KEY (product_id)
         REFERENCES products(id)
-        ON UPDATE CASCADE
         ON DELETE RESTRICT
 );
