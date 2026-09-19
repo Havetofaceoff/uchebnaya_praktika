@@ -9,7 +9,7 @@ CREATE TABLE partners (
     name VARCHAR(255) NOT NULL,
     inn VARCHAR(12) NOT NULL UNIQUE,
     email VARCHAR(255) UNIQUE,
-    phone VARCHAR(20) NOT NULL,
+    phone VARCHAR(20),
     rating INT NOT NULL DEFAULT 0
 );
 
