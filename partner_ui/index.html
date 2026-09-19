@@ -92,41 +92,19 @@
     <main class="container">
       <h2>Партнеры</h2>
 
+      {% for partner in partners %}
       <div class="partner-card">
         <div>
-          <p class="partner-title">Директор | ООО «Ромашка»</p>
+          <p class="partner-title">Партнер | {{ partner.name }}</p>
 
-          <p class="partner-info">+7 223 322 22 32</p>
-
-          <p class="partner-info">Рейтинг: 10</p>
+          <p class="partner-info">
+            Общий объем продаж: {{ partner.total_quantity }}
+          </p>
         </div>
 
-        <div class="discount">10%</div>
+        <div class="discount">{{ partner.discount }}%</div>
       </div>
-
-      <div class="partner-card">
-        <div>
-          <p class="partner-title">Директор | ООО «Василек»</p>
-
-          <p class="partner-info">+7 223 322 22 32</p>
-
-          <p class="partner-info">Рейтинг: 10</p>
-        </div>
-
-        <div class="discount">10%</div>
-      </div>
-
-      <div class="partner-card">
-        <div>
-          <p class="partner-title">Директор | ООО «Лютик»</p>
-
-          <p class="partner-info">+7 223 322 22 32</p>
-
-          <p class="partner-info">Рейтинг: 10</p>
-        </div>
-
-        <div class="discount">10%</div>
-      </div>
+      {% endfor %}
     </main>
   </body>
 </html>
