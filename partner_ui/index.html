@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>CRM: Список партнеров и скидок</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+        color: #333333;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 20px 40px;
+        background-color: #ffffff;
+        border-bottom: 1px solid #dddddd;
+      }
+
+      .logo {
+        width: 100px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #bbbbbb;
+        font-weight: bold;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 26px;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 30px auto;
+      }
+
+      .container h2 {
+        margin-bottom: 20px;
+      }
+
+      .partner-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        min-height: 140px;
+        margin-bottom: 20px;
+        padding: 22px 30px;
+        background-color: #ffffff;
+        border: 1px solid #999999;
+      }
+
+      .partner-title {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .partner-info {
+        margin: 4px 0;
+        font-size: 16px;
+      }
+
+      .discount {
+        margin-right: 30px;
+        font-size: 22px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="logo">Логотип</div>
+
+      <h1>Список партнеров и скидок</h1>
+    </header>
+
+    <main class="container">
+      <h2>Партнеры</h2>
+
+      <div class="partner-card">
+        <div>
+          <p class="partner-title">Директор | ООО «Ромашка»</p>
+
+          <p class="partner-info">+7 223 322 22 32</p>
+
+          <p class="partner-info">Рейтинг: 10</p>
+        </div>
+
+        <div class="discount">10%</div>
+      </div>
+
+      <div class="partner-card">
+        <div>
+          <p class="partner-title">Директор | ООО «Василек»</p>
+
+          <p class="partner-info">+7 223 322 22 32</p>
+
+          <p class="partner-info">Рейтинг: 10</p>
+        </div>
+
+        <div class="discount">10%</div>
+      </div>
+
+      <div class="partner-card">
+        <div>
+          <p class="partner-title">Директор | ООО «Лютик»</p>
+
+          <p class="partner-info">+7 223 322 22 32</p>
+
+          <p class="partner-info">Рейтинг: 10</p>
+        </div>
+
+        <div class="discount">10%</div>
+      </div>
+    </main>
+  </body>
+</html>
