@@ -11,6 +11,10 @@ def index():
         "index.html",
         partners=partners,
     )
+    
+@app.route("/partners/add")
+def add_partner():
+    return render_template("partner_edit.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
