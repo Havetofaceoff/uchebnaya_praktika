@@ -94,6 +94,19 @@
       .add-partner-btn:hover {
         background-color: #555;
       }
+      .partner-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.partner-card-link .partner-card {
+  cursor: pointer;
+}
+
+.partner-card-link:hover .partner-card {
+  background-color: #f0f0f0;
+}
     </style>
   </head>
 
@@ -109,18 +122,27 @@
       <a href="/partners/add" class="add-partner-btn"> Добавить партнера </a>
 
       {% for partner in partners %}
-      <div class="partner-card">
-        <div>
-          <p class="partner-title">Партнер | {{ partner.name }}</p>
 
-          <p class="partner-info">
-            Общий объем продаж: {{ partner.total_quantity }}
-          </p>
-        </div>
+<a
+  href="/partners/{{ partner.id }}/edit"
+  class="partner-card-link"
+>
+  <div class="partner-card">
+    <div>
+      <p class="partner-title">Партнер | {{ partner.name }}</p>
 
-        <div class="discount">{{ partner.discount }}%</div>
-      </div>
-      {% endfor %}
+      <p class="partner-info">
+        Общий объем продаж: {{ partner.total_quantity }}
+      </p>
+    </div>
+
+    <div class="discount">
+      {{ partner.discount }}%
+    </div>
+  </div>
+</a>
+
+{% endfor %}
     </main>
   </body>
 </html>
