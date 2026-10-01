@@ -1,213 +1,277 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>
-      {% if mode == "edit" %} CRM: Карточка партнера [Редактирование] {% else %}
-      CRM: Карточка партнера [Добавление] {% endif %}
-    </title>
+  <title>
+    {% if mode == "edit" %}
+      CRM: Карточка партнера [Редактирование]
+    {% else %}
+      CRM: Карточка партнера [Добавление]
+    {% endif %}
+  </title>
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background-color: #f5f5f5;
-        color: #222;
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    .header {
+      background-color: white;
+      padding: 25px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 35px;
+      border: 1px solid #ccc;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #aaa;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .button {
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      background-color: #333;
+      color: white;
+    }
+
+    .back-button {
+      background-color: #777;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <h1>CRM: Карточка партнера</h1>
+  </header>
+
+  <main class="container">
+
+    <h2>
+      {% if mode == "edit" %}
+        Редактирование партнера
+      {% else %}
+        Добавление партнера
+      {% endif %}
+    </h2>
+
+    <form method="POST" id="partner-form">
+
+      <div class="form-group">
+        <label for="name">Наименование</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="{{ partner.name if partner else '' }}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inn">ИНН</label>
+        <input
+          type="text"
+          id="inn"
+          name="inn"
+          value="{{ partner.inn if partner else '' }}"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="partner_type">Тип партнера</label>
+
+        <!-- При редактировании сохраняем выбранный ранее тип партнера -->
+        <select id="partner_type" name="partner_type" required>
+          <option value="" disabled {% if not partner or not partner.partner_type %}selected{% endif %}>
+            Выберите тип партнера
+          </option>
+
+          <option value="ООО" {% if partner and partner.partner_type == "ООО" %}selected{% endif %}>
+            ООО
+          </option>
+
+          <option value="ИП" {% if partner and partner.partner_type == "ИП" %}selected{% endif %}>
+            ИП
+          </option>
+
+          <option value="ЗАО" {% if partner and partner.partner_type == "ЗАО" %}selected{% endif %}>
+            ЗАО
+          </option>
+
+          <option value="ОАО" {% if partner and partner.partner_type == "ОАО" %}selected{% endif %}>
+            ОАО
+          </option>
+
+          <option value="ПАО" {% if partner and partner.partner_type == "ПАО" %}selected{% endif %}>
+            ПАО
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="rating">Рейтинг</label>
+        <input
+          type="text"
+          id="rating"
+          name="rating"
+          value="{{ partner.rating if partner else 0 }}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="address">Адрес</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          value="{{ partner.address if partner and partner.address else '' }}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="director">ФИО директора</label>
+        <input
+          type="text"
+          id="director"
+          name="director"
+          value="{{ partner.director if partner and partner.director else '' }}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Телефон</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value="{{ partner.phone if partner and partner.phone else '' }}"
+          placeholder="+7 (999) 123-45-67"
+          title="Введите телефон в формате +7 (999) 123-45-67"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email компании</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          value="{{ partner.email if partner and partner.email else '' }}"
+          placeholder="company@example.ru"
+          title="Введите email в формате company@example.ru"
+        />
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="button">
+          Сохранить
+        </button>
+
+        <button
+          type="button"
+          class="button back-button"
+          id="back-button"
+        >
+          Назад
+        </button>
+      </div>
+
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById("partner-form");
+    const backButton = document.getElementById("back-button");
+
+    // Запоминаем исходное состояние, чтобы определить несохраненные изменения.
+    const initialFormData = new FormData(form);
+    const initialValues = new URLSearchParams(initialFormData).toString();
+
+    function formWasChanged() {
+      const currentFormData = new FormData(form);
+      const currentValues = new URLSearchParams(currentFormData).toString();
+
+      return currentValues !== initialValues;
+    }
+
+    backButton.addEventListener("click", function () {
+      if (formWasChanged()) {
+        const leavePage = confirm(
+          "Предупреждение!\n\n" +
+          "В форме есть несохраненные изменения. " +
+          "При выходе они будут безвозвратно потеряны.\n\n" +
+          "Нажмите «ОК», чтобы выйти без сохранения, " +
+          "или «Отмена», чтобы вернуться к редактированию."
+        );
+
+        if (!leavePage) {
+          return;
+        }
       }
 
-      .header {
-        background-color: white;
-        padding: 25px 40px;
-        border-bottom: 1px solid #ddd;
-      }
+      window.location.href = "/";
+    });
 
-      .container {
-        max-width: 800px;
-        margin: 40px auto;
-        background-color: white;
-        padding: 35px;
-        border: 1px solid #ccc;
-      }
+    {% if message %}
+      {% if message_type == "error" %}
 
-      h1 {
-        margin-top: 0;
-      }
+        alert(
+          "Ошибка\n\n{{ message | e }}"
+        );
 
-      .form-group {
-        margin-bottom: 20px;
-      }
+      {% elif message_type == "info" %}
 
-      label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 7px;
-      }
+        alert(
+          "Информация\n\n{{ message | e }}"
+        );
 
-      input,
-      select {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #aaa;
-      }
+        {% if redirect_after_message %}
+          window.location.href = "/";
+        {% endif %}
 
-      .buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 30px;
-      }
+      {% endif %}
+    {% endif %}
+  </script>
 
-      .button {
-        padding: 12px 20px;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        text-decoration: none;
-        background-color: #333;
-        color: white;
-      }
-
-      .back-button {
-        background-color: #777;
-      }
-    </style>
-  </head>
-
-  <body>
-    <header class="header">
-      <h1>CRM: Карточка партнера</h1>
-    </header>
-
-    <main class="container">
-      <h2>
-        {% if mode == "edit" %} Редактирование партнера {% else %} Добавление
-        партнера {% endif %}
-      </h2>
-
-      <form method="POST">
-        <div class="form-group">
-          <label for="name">Наименование</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value="{{ partner.name if partner else '' }}"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="inn">ИНН</label>
-          <input
-            type="text"
-            id="inn"
-            name="inn"
-            value="{{ partner.inn if partner else '' }}"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="partner_type">Тип партнера</label>
-
-          <!-- При редактировании сохраняем выбранный ранее тип партнера -->
-          <select id="partner_type" name="partner_type" required>
-  <option value="" disabled {% if not partner or not partner.partner_type %}selected{% endif %}>
-    Выберите тип партнера
-  </option>
-
-  <option value="ООО" {% if partner and partner.partner_type == "ООО" %}selected{% endif %}>
-    ООО
-  </option>
-
-  <option value="ИП" {% if partner and partner.partner_type == "ИП" %}selected{% endif %}>
-    ИП
-  </option>
-
-  <option value="ЗАО" {% if partner and partner.partner_type == "ЗАО" %}selected{% endif %}>
-    ЗАО
-  </option>
-
-  <option value="ОАО" {% if partner and partner.partner_type == "ОАО" %}selected{% endif %}>
-    ОАО
-  </option>
-
-  <option value="ПАО" {% if partner and partner.partner_type == "ПАО" %}selected{% endif %}>
-    ПАО
-  </option>
-</select>
-        </div>
-
-        <div class="form-group">
-          <label for="rating">Рейтинг</label>
-          <input
-            type="number"
-            id="rating"
-            name="rating"
-            min="0"
-            step="1"
-            value="{{ partner.rating if partner else 0 }}"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="address">Адрес</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value="{{ partner.address if partner and partner.address else '' }}"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="director">ФИО директора</label>
-          <input
-            type="text"
-            id="director"
-            name="director"
-            value="{{ partner.director if partner and partner.director else '' }}"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Телефон</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value="{{ partner.phone if partner and partner.phone else '' }}"
-            placeholder="+7 (999) 123-45-67"
-            title="Введите телефон в формате +7 (999) 123-45-67"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email компании</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value="{{ partner.email if partner and partner.email else '' }}"
-            placeholder="company@example.ru"
-            title="Введите email в формате company@example.ru"
-            required
-          />
-        </div>
-
-        <div class="buttons">
-          <button type="submit" class="button">Сохранить</button>
-
-          <a href="/" class="button back-button"> Назад </a>
-        </div>
-      </form>
-    </main>
-  </body>
+</body>
 </html>
