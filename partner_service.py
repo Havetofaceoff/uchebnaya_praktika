@@ -198,3 +198,41 @@ def update_partner(partner_id: int, data: dict) -> bool:
         return cursor.rowcount > 0
     finally:
         connection.close()
+        
+def get_partner_sales_history(partner_id: int) -> list:
+    connection = get_connection()
+
+    try:
+        cursor = connection.cursor()
+
+        # JOIN нужен для получения названия товара по product_id из истории продаж.
+        cursor.execute(
+            """
+            SELECT
+                p.name,
+                sh.quantity,
+                sh.delivery_date
+            FROM sales_history AS sh
+            JOIN products AS p
+                ON p.id = sh.product_id
+            WHERE sh.partner_id = ?
+            ORDER BY sh.delivery_date DESC
+            """,
+            (partner_id,),
+        )
+
+        rows = cursor.fetchall()
+
+        history = []
+
+        for row in rows:
+            history.append({
+                "product_name": row[0],
+                "quantity": row[1],
+                "sale_date": row[2],
+            })
+
+        return history
+
+    finally:
+        connection.close()

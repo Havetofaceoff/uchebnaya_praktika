@@ -107,6 +107,39 @@
 .partner-card-link:hover .partner-card {
   background-color: #f0f0f0;
 }
+.partner-card {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.partner-main-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 22px 30px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.partner-main-link:hover {
+  background-color: #f0f0f0;
+}
+
+.history-button {
+  display: inline-block;
+  margin: 0 30px 20px;
+  padding: 10px 16px;
+  background-color: #333;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.history-button:hover {
+  background-color: #555;
+}
     </style>
   </head>
 
@@ -123,13 +156,15 @@
 
       {% for partner in partners %}
 
-<a
-  href="/partners/{{ partner.id }}/edit"
-  class="partner-card-link"
->
-  <div class="partner-card">
+<div class="partner-card">
+  <a
+    href="/partners/{{ partner.id }}/edit"
+    class="partner-main-link"
+  >
     <div>
-      <p class="partner-title">Партнер | {{ partner.name }}</p>
+      <p class="partner-title">
+        Партнер | {{ partner.name }}
+      </p>
 
       <p class="partner-info">
         Общий объем продаж: {{ partner.total_quantity }}
@@ -139,8 +174,15 @@
     <div class="discount">
       {{ partner.discount }}%
     </div>
-  </div>
-</a>
+  </a>
+
+  <a
+    href="/partners/{{ partner.id }}/history"
+    class="history-button"
+  >
+    История продаж
+  </a>
+</div>
 
 {% endfor %}
     </main>

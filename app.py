@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, abort
 from partner_service import (
     get_all_partners_with_discount,
     get_partner_by_id,
+    get_partner_sales_history,
     create_partner,
     update_partner,
 )
@@ -162,6 +163,21 @@ def edit_partner(partner_id):
         mode="edit",
     )
 
+@app.route("/partners/<int:partner_id>/history")
+def partner_history(partner_id):
+    # partner_id определяет, историю какого партнера необходимо показать.
+    partner = get_partner_by_id(partner_id)
+
+    if not partner:
+        abort(404)
+
+    history = get_partner_sales_history(partner_id)
+
+    return render_template(
+        "partner_history.html",
+        partner=partner,
+        history=history,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

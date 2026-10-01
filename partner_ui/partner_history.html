@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CRM: История реализации продукции — {{ partner.name }}</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    .header {
+      background-color: white;
+      padding: 25px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 30px auto;
+    }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      margin-top: 20px;
+    }
+
+    .history-table th,
+    .history-table td {
+      padding: 14px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    .history-table th {
+      background-color: #eeeeee;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #777;
+      color: white;
+      text-decoration: none;
+    }
+
+    .empty-message {
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo">Логотип</div>
+
+    <h1>
+      CRM: История реализации продукции — {{ partner.name }}
+    </h1>
+  </header>
+
+  <main class="container">
+
+    {% if history %}
+
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Наименование продукции</th>
+            <th>Количество (шт.)</th>
+            <th>Дата продажи</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for sale in history %}
+            <tr>
+              <td>{{ sale.product_name }}</td>
+              <td>{{ sale.quantity }}</td>
+              <td>
+                {{ sale.sale_date[8:10] }}.{{ sale.sale_date[5:7] }}.{{ sale.sale_date[0:4] }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+
+      <p class="empty-message">
+        История продаж для этого партнера отсутствует.
+      </p>
+
+    {% endif %}
+
+    <a href="/" class="back-button">
+      Назад
+    </a>
+
+  </main>
+
+</body>
+</html>
