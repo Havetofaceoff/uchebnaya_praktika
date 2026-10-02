@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CRM: Калькулятор материалов</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    .header {
+      background-color: white;
+      padding: 25px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 35px;
+      border: 1px solid #ccc;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #aaa;
+    }
+
+    .hint {
+      margin-top: 5px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      background-color: #333;
+      color: white;
+    }
+
+    .back-button {
+      background-color: #777;
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 20px;
+      border: 1px solid #999;
+      background-color: #f0f0f0;
+    }
+
+    .error {
+      margin-top: 25px;
+      padding: 20px;
+      border: 1px solid #999;
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo">Логотип</div>
+    <h1>CRM: Калькулятор материалов</h1>
+  </header>
+
+  <main class="container">
+
+    <h2>Расчет необходимого сырья</h2>
+
+    <form method="POST">
+
+      <div class="form-group">
+        <label for="product_type_id">
+          ID типа продукции
+        </label>
+
+        <input
+          type="text"
+          id="product_type_id"
+          name="product_type_id"
+          placeholder="Например: 1"
+          required
+        />
+
+        <div class="hint">
+          Доступные тестовые ID: 1, 2, 3
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="material_type_id">
+          ID типа материала
+        </label>
+
+        <input
+          type="text"
+          id="material_type_id"
+          name="material_type_id"
+          placeholder="Например: 2"
+          required
+        />
+
+        <div class="hint">
+          Доступные тестовые ID: 1, 2, 3
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">
+          Количество продукции
+        </label>
+
+        <input
+          type="text"
+          id="quantity"
+          name="quantity"
+          placeholder="Например: 10"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="param_1">
+          Параметр изделия 1
+        </label>
+
+        <input
+          type="text"
+          id="param_1"
+          name="param_1"
+          placeholder="Например: 2.5"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="param_2">
+          Параметр изделия 2
+        </label>
+
+        <input
+          type="text"
+          id="param_2"
+          name="param_2"
+          placeholder="Например: 3.0"
+          required
+        />
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="button">
+          Рассчитать
+        </button>
+
+        <a href="/" class="button back-button">
+          Назад
+        </a>
+      </div>
+
+    </form>
+
+    {% if result is not none and result != -1 %}
+      <div class="result">
+        <strong>Необходимое количество материала:</strong>
+        {{ result }}
+      </div>
+    {% endif %}
+
+    {% if error_message %}
+      <div class="error">
+        Ошибка: {{ error_message }}
+      </div>
+    {% endif %}
+
+  </main>
+
+</body>
+</html>

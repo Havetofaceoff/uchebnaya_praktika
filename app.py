@@ -8,6 +8,9 @@ from partner_service import (
     update_partner,
 )
 
+from material_calculator import calculate_required_material
+
+
 app = Flask(__name__, template_folder="partner_ui")
 
 
@@ -163,9 +166,10 @@ def edit_partner(partner_id):
         mode="edit",
     )
 
+
 @app.route("/partners/<int:partner_id>/history")
 def partner_history(partner_id):
-    # partner_id определяет, историю какого партнера необходимо показать.
+    # ID определяет, историю какого партнера необходимо показать.
     partner = get_partner_by_id(partner_id)
 
     if not partner:
@@ -178,6 +182,49 @@ def partner_history(partner_id):
         partner=partner,
         history=history,
     )
+
+
+@app.route("/material-calculator", methods=["GET", "POST"])
+def material_calculator():
+    result = None
+    error_message = None
+
+    if request.method == "POST":
+        try:
+            product_type_id = int(request.form["product_type_id"])
+            material_type_id = int(request.form["material_type_id"])
+            quantity = int(request.form["quantity"])
+            param_1 = float(request.form["param_1"])
+            param_2 = float(request.form["param_2"])
+
+            result = calculate_required_material(
+                product_type_id,
+                material_type_id,
+                quantity,
+                param_1,
+                param_2,
+            )
+
+            # Значение -1 означает, что метод получил некорректные данные.
+            if result == -1:
+                error_message = (
+                    "Расчет невозможен. Проверьте ID типа продукции и "
+                    "материала. Количество и параметры изделия должны "
+                    "быть больше нуля."
+                )
+
+        except (ValueError, TypeError):
+            error_message = (
+                "Некорректный формат данных. ID и количество должны быть "
+                "целыми числами, а параметры изделия — числами."
+            )
+
+    return render_template(
+        "material_calculator.html",
+        result=result,
+        error_message=error_message,
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
