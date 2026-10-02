@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, render_template, request, abort
 
 from partner_service import (
@@ -12,6 +13,11 @@ from material_calculator import calculate_required_material
 
 
 app = Flask(__name__, template_folder="partner_ui")
+logging.basicConfig(
+    filename="app.log",
+    level=logging.ERROR,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 def validate_partner_form(form):
@@ -86,6 +92,10 @@ def add_partner():
             )
 
         except ValueError as error:
+            logging.error(
+                 "Ошибка валидации при добавлении партнера: %s",
+                 error,
+)
             return render_template(
                 "partner_edit.html",
                 partner=request.form,
@@ -205,20 +215,28 @@ def material_calculator():
                 param_2,
             )
 
-            # Значение -1 означает, что метод получил некорректные данные.
+                        # Значение -1 означает, что метод получил некорректные данные.
             if result == -1:
+                logging.error(
+                    "Некорректные данные для расчета материалов."
+                )
+
                 error_message = (
                     "Расчет невозможен. Проверьте ID типа продукции и "
                     "материала. Количество и параметры изделия должны "
                     "быть больше нуля."
                 )
 
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as error:
+            logging.error(
+                "Ошибка ввода в калькуляторе материалов: %s",
+                error,
+            )
+
             error_message = (
                 "Некорректный формат данных. ID и количество должны быть "
                 "целыми числами, а параметры изделия — числами."
             )
-
     return render_template(
         "material_calculator.html",
         result=result,
